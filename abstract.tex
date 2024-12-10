@@ -7,183 +7,348 @@
 \acmYear{2025}
 
 \author{Enrico Tassi}
-\orcid{xxx}
+\orcid{0000-0002-7783-528X}
 \affiliation{%
     \institution{Université Côte d'Azur, Inria}
     %\city{bla}
     \country{France}
 }
 \email{enrico.tassi@inria.fr}
+\acmDOI{}
 
 \title{Elpi: rule-based meta-languge for Rocq}
 \begin{abstract}
-Elpi is a high level programming language that can be used to implement new
-commands and tactics for the Rocq prover. It features native support for
-syntax trees with binders and holes, freeing the programmer from the complexity
-of De Bruijn indexes and unification variables.
+% Elpi is a high level programming language that can be used to implement new
+% commands and tactics for the Rocq prover. It features native support for
+% syntax trees with binders and holes, freeing the programmer from the complexity
+% of De Bruijn indexes and unification variables.
+% 
+% In recent years Elpi was used to write a number of Rocq extensions, some
+% of which are widely used. In this talk we give a gentle introduction to the
+% programming language Elpi and its extensive API to interact with Rocq; 
+% we survey some applications written in Elpi; finally we compare it to other
+% meta-languages discussing its strong and weak points.
 
-In recent years Elpi was used to write a number of Rocq extensions, some
-of which are widely used. In this talk we give a gentle introduction to the
-programming language Elpi and its extensive API to interact with Rocq; 
-we survey some applications written in Elpi; finally we compare it to other
-meta-languages discussing its strong and weak points.
-\end{abstract}
+Elpi is a high-level programming language designed to implement new commands
+and tactics for the Rocq prover. It provides native support for syntax trees
+with binders and holes, relieving programmers of the complexities associated
+with De Bruijn indices and unification variables.
+
+In recent years, Elpi has been used to develop a variety of Rocq extensions,
+some of which have become widely adopted. In this talk, we will provide a
+gentle introduction to the Elpi programming language and its extensive API for
+interacting with Rocq. We will also survey notable applications written in Elpi
+and conclude by comparing Elpi to other meta-languages, highlighting both its
+strengths and weaknesses. \end{abstract}
 
 \begin{document}
 \maketitle
 
 \section{Elpi = $\lambda$Prolog + C.H.R.}
 
-From a programming language perspective Elpi is a dialect of
-$\lambda$Prolog enriched with constraints and constraint handling rules.
-From a more practical angle Elpi is an extension language: an interpreter
-that can easily hosted by a larger application and that can provide users a high
-level language to extend the application.
+% From a programming language perspective Elpi is a dialect of
+% $\lambda$Prolog enriched with constraints and constraint handling rules.
+% From a more practical angle Elpi is an extension language: an interpreter
+% that can easily hosted by a larger application and that can provide users a high
+% level language to extend the application.
+% 
+% Elpi and its implementation provide a unique mix of feature that make it
+% particularly well suited to extend an interactive theorem prover like Rocq.
 
-Elpi and its implementation provide a unique mix of feature that make it
-particularly well suited to extend an interactive theorem prover like Rocq.
+From a programming language perspective, Elpi is a dialect of $\lambda$Prolog
+enriched with constraints and constraint handling rules. From a more practical
+standpoint, Elpi is as an extension language: an interpreter that can be easily
+embedded within a larger application, providing users with a high-level
+language to extend the application's functionality.
 
-\paragraph{Rule based} Elpi source code is organized into rules, and new rules
-can be added both statically and dynamically, either by the programmer or
-by the program itself. This feature goes hand in hand with proof scripts
-that similarly build an ever growing environment of types and proofs. New
-rules can mention new concepts and hence extend the capabilities of existing
-Elpi programs.
+Elpi and its implementation provide a unique combination of features that make
+it particularly well-suited for extending an interactive theorem prover like
+Rocq.
 
-\paragraph{Syntax trees with binders} Elpi data types can contain binders and the programming
+\paragraph{Rule based}
+% Elpi source code is organized into rules, and new rules
+% can be added both statically and dynamically, either by the programmer or
+% by the program itself. This feature goes hand in hand with proof scripts
+% that similarly build an ever growing environment of types and proofs. New
+% rules can mention new concepts and hence extend the capabilities of existing
+% Elpi programs.
+
+Elpi source code is organized into rules, which can be added both statically
+and dynamically, either by the programmer or by the program itself. This
+feature aligns naturally with proof scripts, which similarly construct an ever
+growing environment of types and proofs. New rules can use new concepts and
+hence extend the capabilities of existing Elpi programs.
+
+\paragraph{Syntax trees with binders}
+Elpi data types can contain binders and the programming
 language offers primitives to cross then, following the Higher Order Abstract
 Syntax tradition~\cite{10.1145/960116.54010}
 In particular the programmer can
 postulates fresh constants and substitute bound variables with them,
 a technique called binder mobility~\cite{miller:hal-01884210}.
 
-\paragraph{Context management} When a binder is crossed it is often required to
-attach some data to the bound variable. For example typing algorithms
-thread a typing context. When written in Elpi these algorithms do not need to
-do mention a context and can rather piggy back on the runtime of the programming
-language by adding new rules dynamically.
+\paragraph{Context management}
+% When a binder is crossed it is often required to
+% attach some data to the bound variable. For example typing algorithms
+% thread a typing context. When written in Elpi these algorithms do not need to
+% do mention a context and can rather piggy back on the runtime of the programming
+% language by adding new rules dynamically.
 
-\paragraph{Unification variables} Being a logic programming language Elpi
-provides unification variables, carries a substitution for the programmer
-and does scope checking preventing variable capture.
+When a binder is crossed, it is often necessary to associate some data with the
+bound variable. For example, typing algorithms typically manage a typing
+context. In Elpi, these algorithms do not need to explicitly handle a context;
+instead, they can leverage the runtime of the programming language by
+dynamically adding new rules.
 
-\paragraph{Constraints} A constraint is a computation that is suspended
-until its input, a logic variable, materializes. Constraint handling rules manipulate
-suspended computations as first class values, and deduce new information.
-For example if is X is an unknown number on which two incompatible
-computations are suspended, like the tests for being even and odd, then a
-constraint handling rule can immediately stop the program.
+\paragraph{Unification variables}
+% Being a logic programming language Elpi
+% provides unification variables, carries a substitution for the programmer
+% and does scope checking preventing variable capture.
 
-\paragraph{Syntax trees with holes} Logic variables can be used to represent
-incomplete syntax trees. Algorithms manipulating this kind of trees need
-to attach data to holes exactly as typing algorithms need to attach data to
-bound variables. For example if the syntax tree being built is a Rocq term, then
-these holes surely come with a typing constraint.
-Whenever a hole gets instantiated the typing constraint must be checked for
-validity. Moreover, since the same hole cannot have two types, a constraint
-handling rule can enforce the unification of two typing constraints about the same hole.
+As a logic programming language, Elpi provides unification variables,
+automatically manages substitutions for the programmer, and performs scope
+checking to prevent variable capture.
 
-\paragraph{API} The Elpi interpreter comes with a very flexible Foreign Function
-Interface. For example it is possible to invoke the Rocq type checker deep
-under binders, or script the vernacular language by programmatically
-declaring inductive types, modules, type class instances, Arguments directives,
-and so on.
+\paragraph{Constraints}
+%A constraint is a computation that is suspended
+%until its input, a logic variable, materializes. Constraint handling rules manipulate
+%suspended computations as first class values, and deduce new information.
+%For example if is X is an unknown number on which two incompatible
+%computations are suspended, like the tests for being even and odd, then a
+%constraint handling rule can immediately stop the program.
+
+A constraint in Elpi represents a computation that remains suspended until its
+input, a logic variable, becomes instantiated. Constraint Handling Rules (CHRs)
+treat these suspended computations as first-class values,
+enabling them to deduce new information dynamically.
+For example, if \( X \) is an unknown natural number on which two incompatible
+computations, such as tests for being even and odd, are suspended,
+a CHR can detect the conflict and halt the program.
+
+\paragraph{Syntax trees with holes}
+% Logic variables can be used to represent
+% incomplete syntax trees. Algorithms manipulating this kind of trees need
+% to attach data to holes exactly as typing algorithms need to attach data to
+% bound variables. For example if the syntax tree being built is a Rocq term, then
+% these holes surely come with a typing constraint.
+% Whenever a hole gets instantiated the typing constraint must be checked for
+% validity. Moreover, since the same hole cannot have two types, a constraint
+% handling rule can enforce the unification of two typing constraints about the same hole.
+
+Logic variables in Elpi can be used to represent incomplete syntax trees.
+Algorithms that manipulate these trees must attach data to holes,
+similar to how typing algorithms attach data to bound variables.
+For instance, if the syntax tree being constructed represents a Rocq term,
+these holes will certainly carry typing constraints. 
+
+Whenever a hole gets instantiated, its typing constraint must be validated.
+Additionally, since a hole cannot have two conflicting types, a CHR can enforce
+the unification of any typing constraints associated with the same hole,
+ensuring consistency throughout the process.
+
+\paragraph{API}
+% The Elpi interpreter comes with a very flexible Foreign Function
+% Interface. For example it is possible to invoke the Rocq type checker deep
+% under binders, or script the vernacular language by programmatically
+% declaring inductive types, modules, type class instances, Arguments directives,
+% and so on.
+
+The Elpi interpreter includes a highly flexible Foreign Function
+Interface. For example, it allows invoking the Rocq type checker
+deep under binders or scripting the vernacular language by
+programmatically declaring inductive types, modules, type class
+instances, Arguments directives, and more.
 
 \section{Applications}
 
 We briefly describe some applications written in Elpi.
 
-\paragraph{Hierarchy Builder} HB~\cite{cohen_et_al:LIPIcs.FSCD.2020.34} is a high level language to describe hierarchies
+\paragraph{Hierarchy Builder}
+HB~\cite{cohen_et_al:LIPIcs.FSCD.2020.34} is a high level language to describe hierarchies
 of interfaces and is adopted by many Rocq libraries including the Mathematical
-Components one~\cite{affeldt:hal-03463762}. Hierarchy Builder synthesizes all the boilerplate in order to
+Components one~\cite{affeldt:hal-03463762}. HB synthesizes all the boilerplate in order to
 make these interfaces work in practice, like modules, records, canonical
-structure instances, implicit arguments declarations, notations. It takes
-advantage of the vast API Elpi provides and the possibility to incrementally
-build a data base of known interfaces and their inheritance relation.
+structure instances, implicit arguments declarations, notations. 
+% It takes
+% advantage of the vast API Elpi provides and the possibility to incrementally
+% build a data base of known interfaces and their inheritance relation.
+HB leverages the extensive API provided by Elpi, as well as its ability to incrementally
+build a database of known interfaces and their inheritance relations.
 
-\paragraph{Trakt} and its successor Trocq~\cite{10.1007/978-3-031-57262-3_10} are
-frameworks to transport
-types (i.e. Rocq goals) over type (iso)morphisms, with or without univalence.
-The former is used by the Sniper tactic of Rocq-smt~\cite{DBLP:conf/cpp/Blot0CPKMV23}.
-Both tools take advantage of the capability of Elpi to manipulate syntax
-with binders. Trocq uses constraints to accumulate knowledge during
-term processing and finally compute an optimal solution.
+\paragraph{TnT}
+% Trakt and its successor Trocq~\cite{10.1007/978-3-031-57262-3_10} are
+% frameworks to transport
+% types (i.e. Rocq goals) over type (iso)morphisms, with or without univalence.
+% The former is used by the Sniper tactic of Rocq-smt~\cite{DBLP:conf/cpp/Blot0CPKMV23}.
+% Both tools take advantage of the capability of Elpi to manipulate syntax
+% with binders. Trocq uses constraints to accumulate knowledge during
+% term processing and finally compute an optimal solution.
 
-\paragraph{Derive} synthesizes code from type declarations, like deep
-induction principles~\cite{tassi:hal-01897468},
-equality tests~\cite{gregoire:hal-03800154}, parametricity relations,
-lenses for record updates, etc.
-Derive is an extensible framework: each derivation is a set of rules and can
-depend on the result of other derivations. The formal methods team at BlueRock
-security extended it to cover the synthesis of notions of the Std++
-library\footnote{\url{https://github.com/bedrocksystems/BRiCk}}.
+Trakt and its successor, Trocq~\cite{10.1007/978-3-031-57262-3_10}, are
+frameworks designed to transport types (i.e., Rocq goals) over type
+(iso) morphisms, with or without univalence. The former is used by the Sniper
+tactic in Rocq-smt~\cite{DBLP:conf/cpp/Blot0CPKMV23}. Both tools leverage
+Elpi's ability to manipulate syntax with binders. Trocq, in particular, uses
+constraints to accumulate knowledge during term processing and ultimately
+computes an optimal solution.
 
-\paragraph{NES} emulates name spaces on top of Rocq module system. Unlike
-modules a namespace is never closed and new items can be added to in, even
-in different files. NES takes advantage of the capability of Elpi to script
-the Rocq vernacular language.
+\paragraph{Derive}
+% Derive synthesizes code from type declarations, like deep
+% induction principles~\cite{tassi:hal-01897468},
+% equality tests~\cite{gregoire:hal-03800154}, parametricity relations,
+% lenses for record updates, etc.
+% Derive is an extensible framework: each derivation is a set of rules and can
+% depend on the result of other derivations. The formal methods team at BlueRock
+% security extended it to cover the synthesis of notions of the Std++
+% library\footnote{\url{https://github.com/bedrocksystems/BRiCk}}.
 
-\paragraph{Algebra-tactics} is a frontend to the ring, field, lra, nra, and psatz
-tactics that supports the Mathematical Components algebraic
-hierarchy~\cite{sakaguchi:LIPIcs.ITP.2022.29}.
-These tactics take advantage of the seamless interface of Elpi with Rocq
-by repeatedly calling Rocq's deep inside terms in order to reify expressions
-up to a controlled form of conversion.
+Derive synthesizes code from type declarations, such as deep induction
+principles~\cite{tassi:hal-01897468}, equality
+tests~\cite{gregoire:hal-03800154}, parametricity relations, lenses for record
+updates, and more. Derive is an extensible framework, where each derivation is
+defined by a set of rules that can depend on the results of other derivations.
+The formal methods team at BlueRock Security has extended this framework to
+cover the synthesis of concepts from the Std++ library.
 
-\section{Related works}
+\paragraph{NES}
+NES emulates name spaces on top of Rocq module system. Unlike modules a namespace
+is never closed and new items can be added to in, even in different files. NES
+takes advantage of the capability of Elpi to script the Rocq vernacular
+language.
 
-Elpi is in good company.
+\paragraph{Algebra-tactics} AT
+% is a frontend to the ring, field, lra, nra, and psatz
+% tactics that supports the Mathematical Components algebraic
+% hierarchy~\cite{sakaguchi:LIPIcs.ITP.2022.29}.
+% These tactics take advantage of the seamless interface of Elpi with Rocq
+% by repeatedly calling Rocq's deep inside terms in order to reify expressions
+% up to a controlled form of conversion.
+is a frontend to the ring, field, linear real arithmetic (lra),
+nonlinear real arithmetic (nra), and psatz tactics, designed to support the
+Mathematical Components algebraic
+hierarchy~\cite{sakaguchi:LIPIcs.ITP.2022.29}. These tactics leverage Elpi's
+seamless integration with Rocq, repeatedly invoking Rocq's unification mechanisms
+deep inside terms to reify expressions up to a controlled form of conversion.
 
-\paragraph{$\mathcal{L}$tac} is the legacy extension language for Rocq~\cite{10.5555/1765236.1765246}. Its use
-in new projects is going to fade away, but there is a substantial code
-base in the wild using this language. In spite of a syntax close to
-functional programming language its semantics is closer to a logic programming
-language (i.e. the runtime implements backtracking). While Rocq terms
-can be manipulated using their natural syntax, i.e. no De Bruijn indexes,
-the language suffers from
-an unclear binding discipline, and sometimes confuses the variables of the
-meta language with the ones of the object language. The dynamic semantics
-is also sometimes surprising, for example t and idtac;t are very different,
-the latter being a thunk. The language has no algebraic data types and is untyped.
-In spite of these shortcoming the language has been,
-in out opinion, very instrumental to the success of Rocq.
+\section{Related work}
 
-\paragraph{$\mathcal{L}$tac2} is an ML like language that hides in its
-runtime the proof engine monad of Rocq~\cite{10.1145/1090189.1086390}.
-Rocq terms are represented with an algebraic data type faithful to the
-internal Rocq term data type, including De Bruijn indexes. It features a
-notion of quotations and anti-quotations allowing to use Rocq term
-syntax without confusion. It exposes many APIs of the proof engine
-making it well suited to program low level tactic code, to the benefit of
-the efficiency of the code. It lacks completely APIs to declare Rocq inductive
-types and definitions, or script the vernacular.
+% Elpi is in good company.
 
-\paragraph{Metacoq} The Metacoq project~\cite{sozeau:hal-02167423}
-includes many components one of
-which is a description of Rocq's terms as a Rocq inductive faithful to the
-internal Rocq term data type, including De Bruijn indexes. A meta
-program is essentially a Rocq term in the TemplateMonad that gives programs
-access to some APIs to read/write from/to the logical environment and
-print messages. 
-The unique feature of Metacoq is that it enables reasoning on ``meta''
-programs. For example one can prove, in Rocq, that a meta program produces
-a term of a given type. Still it lacks APIs and formal definitions to deal
-with unification variables, hence proving properties about meta programs
-that manipulate incomplete syntax trees is out of reach.
+\paragraph{
+%$\mathcal{L}$tac} is the legacy extension language for Rocq~\cite{10.5555/1765236.1765246}. Its use
+%in new projects is going to fade away, but there is a substantial code
+%base in the wild using this language. In spite of a syntax close to
+%functional programming language its semantics is closer to a logic programming
+%language (i.e. the runtime implements backtracking). While Rocq terms
+%can be manipulated using their natural syntax, i.e. no De Bruijn indexes,
+%the language suffers from
+%an unclear binding discipline, and sometimes confuses the variables of the
+%meta language with the ones of the object language. The dynamic semantics
+%is also sometimes surprising, for example t and idtac;t are very different,
+%the latter being a thunk. The language has no algebraic data types and is untyped.
+%In spite of these shortcoming the language has been,
+%in our opinion, very instrumental to the success of Rocq.
+$\mathcal{L}$tac} is the legacy extension language for
+Rocq~\cite{10.5555/1765236.1765246}. While its use in new projects is expected
+to decline, a substantial codebase still relies on this language. Despite
+having a syntax resembling that of functional programming languages, its
+semantics is closer to those of a logic programming language, as the runtime
+implements backtracking. Rocq terms can be manipulated using their natural
+syntax—without the need for De Bruijn indices—though the language suffers from
+an unclear binding discipline. This sometimes leads to confusion between the
+variables of the meta-language and those of the object language. The dynamic
+semantics of $\mathcal{L}$tac can also be surprising; for example, `t` and
+`idtac; t` are very different, with the latter being a thunk. Furthermore, the
+language lacks algebraic data types and is untyped. Despite these shortcomings,
+we believe that $\mathcal{L}$tac has been instrumental in the success of Rocq.
 
-\paragraph{Mtac2} The Mtac2 tactic language~\cite{10.1145/3236773} is
-not actively developed anymore but has some interesting characteristics
-worth mentioning. It is a functional language but unlike Metacoq and $\mathcal{L}$tac2
-manages to completely hide De Bruijn indexes to the programmer.
-In particular its nu operator, used to cross binders, is closely related to
-Higher Order Abstract Syntax (see for example the pi operator of $\lambda$Prolog or
-the nab one of MLTS~\cite{10.1145/3354166.3354177}).
-Its type discipline is configurable and also concerns the object
-language ranging from dynamically typed to strongly typed.
-Finally it exposes the (higher order) unification of the objects language
-in the pattern matching construct of of the programming language.
+\paragraph{
+% $\mathcal{L}$tac2} is an ML like language that hides in its runtime
+% the proof engine monad of Rocq~\cite{10.1145/1090189.1086390}. Rocq terms are
+% represented with an algebraic data type faithful to the internal Rocq term data
+% type, including De Bruijn indexes. It features a notion of quotations and
+% anti-quotations allowing to use Rocq term syntax without confusion. It exposes
+% many APIs of the proof engine making it well suited to program low level tactic
+% code, to the benefit of the efficiency of the code. It lacks completely APIs to
+% declare Rocq inductive types and definitions, or script the vernacular.
+$\mathcal{L}$tac2} is an ML-like language that encapsulates the proof engine
+monad of Rocq~\cite{10.1145/1090189.1086390}. Rocq terms are represented using
+an algebraic data type that closely mirrors the internal Rocq term data
+structure, including De Bruijn indices. The language introduces a notion of
+quotations and anti-quotations, which allows users to employ Rocq term syntax
+without ambiguity. Additionally, it exposes many APIs of the proof engine,
+making it well-suited for programming low-level tactic code and optimizing
+efficiency. However, $\mathcal{L}$tac2 lacks APIs for declaring Rocq inductive
+types, definitions, or scripting in the vernacular language.
+
+\paragraph{Metacoq}
+% The Metacoq project~\cite{sozeau:hal-02167423} includes
+% many components one of which is a description of Rocq's terms as a Rocq
+% inductive faithful to the internal Rocq term data type, including De Bruijn
+% indexes. A meta program is essentially a Rocq term in the TemplateMonad that
+% gives programs access to some APIs to read/write from/to the logical
+% environment and print messages. The unique feature of Metacoq is that it
+% enables reasoning on ``meta'' programs. For example one can prove, in Rocq,
+% that a meta program produces a term of a given type. Still it lacks APIs and
+% formal definitions to deal with unification variables, hence proving properties
+% about meta programs that manipulate incomplete syntax trees is out of reach.
+The Metacoq project~\cite{sozeau:hal-02167423} encompasses several components,
+one of which is a description of Rocq's terms as an inductive type, faithfully
+reflecting the internal Rocq term data type, including De Bruijn indices. A
+meta-program in Metacoq is essentially a Rocq term running in the
+TemplateMonad, which allows access to various APIs to read from and write to
+the logical environment and print messages. What sets Metacoq apart is its
+ability to reason about "meta" programs. For instance, one can prove within
+Rocq that a meta-program produces a term of a specific type. However, Metacoq
+currently lacks APIs and formal definitions to handle unification variables,
+which limits the ability to prove properties about meta-programs that
+manipulate incomplete syntax trees.
+
+\paragraph{Mtac2}
+% The Mtac2 tactic language~\cite{10.1145/3236773} is
+% not actively developed anymore but has some interesting characteristics
+% worth mentioning. It is a functional language but unlike Metacoq and $\mathcal{L}$tac2
+% manages to completely hide De Bruijn indexes to the programmer.
+% In particular its nu operator, used to cross binders, is closely related to
+% Higher Order Abstract Syntax (see for example the pi operator of $\lambda$Prolog or
+% the nab one of MLTS~\cite{10.1145/3354166.3354177}).
+% Its type discipline is configurable and also concerns the object
+% language ranging from dynamically typed to strongly typed.
+% Finally it exposes the (higher order) unification of the objects language
+% in the pattern matching construct of of the programming language.
+
+The Mtac2 tactic language~\cite{10.1145/3236773} is no longer actively
+developed but has some interesting features worth highlighting. Unlike Metacoq
+and $\mathcal{L}$tac2, Mtac2 is a functional language that successfully hides
+De Bruijn indices from the programmer. In particular the \texttt{nu} operator, used for
+crossing binders, gives the comfort of HOAS and indeed
+resembles $\lambda$Prolog's \texttt{pi} operator and MLTS's \texttt{nab}
+operator~\cite{10.1145/3354166.3354177}.
+
+Mtac2 offers a configurable type discipline that extends to the object
+language, ranging from dynamically typed to strongly typed.
+Additionally, it exposes the (higher-order) unification of the object
+language through the language's pattern matching construct.
+
+\paragraph{OCaml}.
+%All the languages implemented above are
+%implemented in OCaml, as well as Rocq. It is possible to extend
+%Rocq by writing an OCaml plugin but it is considerably harder.
+%Still, if execution speed is more important that development time,
+%this option can be considered.
+%
+While it is indeed possible to extend Rocq by writing an
+OCaml plugin, this approach is considerably more challenging compared to using
+higher-level languages like the ones mentioned above. Writing plugins in OCaml requires a deep
+understanding of the internal workings of Rocq, and the development process is
+more time-consuming.
+
+However, if execution speed is a critical concern and the performance of the
+system is a higher priority than development time, using OCaml plugins might be
+a suitable choice.
 
 \newpage
+
 \printbibliography
 
 \end{document}
