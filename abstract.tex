@@ -82,9 +82,9 @@ hence extend the capabilities of existing Elpi programs.
 \paragraph{Syntax trees with binders}
 Elpi data types can contain binders and the programming
 language offers primitives to cross then, following the Higher Order Abstract
-Syntax tradition~\cite{10.1145/960116.54010}
+Syntax tradition~\cite{10.1145/960116.54010}.
 In particular the programmer can
-postulates fresh constants and substitute bound variables with them,
+postulate fresh constants and substitute bound variables with them,
 a technique called binder mobility~\cite{miller:hal-01884210}.
 
 \paragraph{Context management}
@@ -118,10 +118,10 @@ checking to prevent variable capture.
 %constraint handling rule can immediately stop the program.
 
 A constraint in Elpi represents a computation that remains suspended until its
-input, a logic variable, becomes instantiated. Constraint Handling Rules (CHRs)
+input, a unification variable, becomes instantiated. Constraint Handling Rules (CHRs)
 treat these suspended computations as first-class values,
 enabling them to deduce new information dynamically.
-For example, if \( X \) is an unknown natural number on which two incompatible
+For example, if \texttt{X} is an unknown natural number on which two incompatible
 computations, such as tests for being even and odd, are suspended,
 a CHR can detect the conflict and halt the program.
 
@@ -135,7 +135,7 @@ a CHR can detect the conflict and halt the program.
 % validity. Moreover, since the same hole cannot have two types, a constraint
 % handling rule can enforce the unification of two typing constraints about the same hole.
 
-Logic variables in Elpi can be used to represent incomplete syntax trees.
+Unification variables in Elpi can be used to represent incomplete syntax trees.
 Algorithms that manipulate these trees must attach data to holes,
 similar to how typing algorithms attach data to bound variables.
 For instance, if the syntax tree being constructed represents a Rocq term,
@@ -157,7 +157,7 @@ The Elpi interpreter includes a highly flexible Foreign Function
 Interface. For example, it allows invoking the Rocq type checker
 deep under binders or scripting the vernacular language by
 programmatically declaring inductive types, modules, type class
-instances, Arguments directives, and more.
+instances, \texttt{Arguments} directives, and more.
 
 \section{Applications}
 
