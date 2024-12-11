@@ -184,10 +184,10 @@ build a database of known interfaces and their inheritance relations.
 % with binders. Trocq uses constraints to accumulate knowledge during
 % term processing and finally compute an optimal solution.
 
-Trakt and its successor, Trocq~\cite{10.1007/978-3-031-57262-3_10}, are
-frameworks designed to transport types (i.e., Rocq goals) over type
+Trakt and its successor Trocq~\cite{10.1007/978-3-031-57262-3_10} are
+frameworks designed to transport types (Rocq goals) over type
 (iso) morphisms, with or without univalence. The former is used by the Sniper
-tactic in Rocq-smt~\cite{DBLP:conf/cpp/Blot0CPKMV23}. Both tools leverage
+tactic in Coq-smt~\cite{DBLP:conf/cpp/Blot0CPKMV23}. Both tools leverage
 Elpi's ability to manipulate syntax with binders. Trocq, in particular, uses
 constraints to accumulate knowledge during term processing and ultimately
 computes an optimal solution.
@@ -232,7 +232,7 @@ deep inside terms to reify expressions up to a controlled form of conversion.
 
 \section{Related work}
 
-% Elpi is in good company.
+Elpi is in good company.
 
 \paragraph{
 %$\mathcal{L}$tac} is the legacy extension language for Rocq~\cite{10.5555/1765236.1765246}. Its use
@@ -248,7 +248,7 @@ deep inside terms to reify expressions up to a controlled form of conversion.
 %the latter being a thunk. The language has no algebraic data types and is untyped.
 %In spite of these shortcoming the language has been,
 %in our opinion, very instrumental to the success of Rocq.
-$\mathcal{L}$tac} is the legacy extension language for
+$\mathcal{L}$tac} $\mathcal{L}$tac (version 1) is the legacy extension language for
 Rocq~\cite{10.5555/1765236.1765246}. While its use in new projects is expected
 to decline, a substantial codebase still relies on this language. Despite
 having a syntax resembling that of functional programming languages, its
@@ -257,10 +257,10 @@ implements backtracking. Rocq terms can be manipulated using their natural
 syntax—without the need for De Bruijn indices—though the language suffers from
 an unclear binding discipline. This sometimes leads to confusion between the
 variables of the meta-language and those of the object language. The dynamic
-semantics of $\mathcal{L}$tac can also be surprising; for example, `t` and
-`idtac; t` are very different, with the latter being a thunk. Furthermore, the
-language lacks algebraic data types and is untyped. Despite these shortcomings,
-we believe that $\mathcal{L}$tac has been instrumental in the success of Rocq.
+semantics of $\mathcal{L}$tac can also be surprising; for example, \texttt{t} and
+\texttt{idtac; t} are very different, with the latter being a thunk.
+Furthermore the language is untyped and lacks even basic data types such as lists.
+Despite these shortcomings $\mathcal{L}$tac has been instrumental in the success of Rocq.
 
 \paragraph{
 % $\mathcal{L}$tac2} is an ML like language that hides in its runtime
@@ -271,15 +271,15 @@ we believe that $\mathcal{L}$tac has been instrumental in the success of Rocq.
 % many APIs of the proof engine making it well suited to program low level tactic
 % code, to the benefit of the efficiency of the code. It lacks completely APIs to
 % declare Rocq inductive types and definitions, or script the vernacular.
-$\mathcal{L}$tac2} is an ML-like language that encapsulates the proof engine
+$\mathcal{L}$tac2} The second version of $\mathcal{L}$tac is an ML-like language that encapsulates the proof engine
 monad of Rocq~\cite{10.1145/1090189.1086390}. Rocq terms are represented using
 an algebraic data type that closely mirrors the internal Rocq term data
 structure, including De Bruijn indices. The language introduces a notion of
 quotations and anti-quotations, which allows users to employ Rocq term syntax
 without ambiguity. Additionally, it exposes many APIs of the proof engine,
 making it well-suited for programming low-level tactic code and optimizing
-efficiency. However, $\mathcal{L}$tac2 lacks APIs for declaring Rocq inductive
-types, definitions, or scripting in the vernacular language.
+efficiency. Currently $\mathcal{L}$tac2 lacks APIs for declaring Rocq inductive
+types or scripting the vernacular language.
 
 \paragraph{Metacoq}
 % The Metacoq project~\cite{sozeau:hal-02167423} includes
@@ -297,9 +297,9 @@ one of which is a description of Rocq's terms as an inductive type, faithfully
 reflecting the internal Rocq term data type, including De Bruijn indices. A
 meta-program in Metacoq is essentially a Rocq term running in the
 TemplateMonad, which allows access to various APIs to read from and write to
-the logical environment and print messages. What sets Metacoq apart is its
+the logical environment. What sets Metacoq apart is its
 ability to reason about "meta" programs. For instance, one can prove within
-Rocq that a meta-program produces a term of a specific type. However, Metacoq
+Rocq that a meta-program produces a term of a given type. However, Metacoq
 currently lacks APIs and formal definitions to handle unification variables,
 which limits the ability to prove properties about meta-programs that
 manipulate incomplete syntax trees.
@@ -330,7 +330,7 @@ language, ranging from dynamically typed to strongly typed.
 Additionally, it exposes the (higher-order) unification of the object
 language through the language's pattern matching construct.
 
-\paragraph{OCaml}.
+\paragraph{OCaml}
 %All the languages implemented above are
 %implemented in OCaml, as well as Rocq. It is possible to extend
 %Rocq by writing an OCaml plugin but it is considerably harder.
