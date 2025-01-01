@@ -1,10 +1,10 @@
-
 ---
 # You can also start simply with 'default'
-theme: seriph
+theme: neversink
+color: sky
 # random image from a curated Unsplash collection by Anthony
 # like them? see https://unsplash.com/collections/94734566/slidev
-background: https://cover.sli.dev
+# background: https://cover.sli.dev
 # some information about your slides (markdown enabled)
 title: Welcome to Slidev
 info: |
@@ -45,6 +45,73 @@ The last comment block of each slide will be treated as slide notes. It will be 
 -->
 
 ---
+transition: fade-out
+layout: default
+title: what
+color: rocq
+---
+
+
+# What is Slidev?
+
+
+Slidev is a slides maker and presenter designed for developers, consist of the following features
+
+```elpi
+pred p i:term.
+p X :- q {{ fun x => lp:Y }}.
+```
+<!--
+Here is another comment.
+-->
+
+---
+transition: slide-up
+level: 2
+---
+ 
+# Navigation
+
+Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
+
+## Keyboard Shortcuts
+
+|                                                     |                             |
+| --------------------------------------------------- | --------------------------- |
+| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
+| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
+| <kbd>up</kbd>                                       | previous slide              |
+| <kbd>down</kbd>                                     | next slide                  |
+
+<!-- https://sli.dev/guide/animations.html#click-animation -->
+<img
+  v-click
+  class="absolute -bottom-9 -left-7 w-80 opacity-50"
+  src="https://sli.dev/assets/arrow-bottom-left.svg"
+  alt=""
+/>
+<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
+
+---
+layout: two-cols
+layoutClass: gap-16
+---
+ - 
+# Table of contents
+
+You can use the `Toc` component to generate a table of contents for your slides:
+
+```html
+<Toc minDepth="1" maxDepth="1" />
+```
+
+The title will be inferred from your slide content, or you can override it with `title` and `level` in your frontmatter.
+
+::right::
+
+<Toc text-sm minDepth="1" maxDepth="2" />
+
+---
 layout: image-right
 image: https://cover.sli.dev
 ---
@@ -55,12 +122,7 @@ Use code snippets and get the highlighting directly, and even types hover!
 
 ```elpi
 pred p.
-p X :- q X {{ fun x => lp:X }}.
-```
-
-```coq
-Lemma foo : fun x => lp:{{ X }}.
-Elpi Command foo.
+p :- q.
 ```
 
 ```ts {all|5|7|7-8|10|all} twoslash

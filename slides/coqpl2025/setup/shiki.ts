@@ -5,6 +5,10 @@ import Coq from './coq.tmLanguage.json'
 
 export default defineShikiSetup((): ShikiSetupReturn => {
   return {
+    themes : {
+      dark : 'dark-plus',
+      light : 'light-plus',
+    },
     langs: [
       'ts',
       'js',

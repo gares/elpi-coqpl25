@@ -1,0 +1,26 @@
+:root {
+    /* --neversink-title-font: 'Inter', sans-serif;
+    --neversink-main-font: 'Inter', sans-serif;
+    --neversink-mono-font: 'Fira Code', monospace;
+    --neversink-quote-font: 'Fira Code', monospace; */
+    --rocq-orange : #ff540a;
+    --rocq-blue : rgb(43,6,136);
+    --slidev-code-background: #fcf6ed;
+}
+
+h1 {
+    color:var(--rocq-blue);
+
+}
+.neversink-rocq-scheme, .ns-c-rocq-scheme {
+    --neversink-bg-color:#ffedd5;
+    --neversink-bg-code-color:#fed7aa;
+    --neversink-fg-code-color:#f97316;
+    --neversink-fg-color:#ea580c;
+    --neversink-text-color:var(--rocq-blue);
+    --neversink-border-color:#f97316;
+    --neversink-highlight-color:#f97316;
+    --neversink-admon-bg-color:#ffedd5;
+    --neversink-admon-border-color:#fdba74;
+    --neversink-admon-text-color:#ea580c;
+}
