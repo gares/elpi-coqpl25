@@ -1,0 +1,12 @@
+*.aux
+*.bbl
+*.bcf
+*.log
+*.blg
+*.fdb_*
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+acmart-primary*
+*.fls
