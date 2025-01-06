@@ -24,3 +24,7 @@ h1 {
     --neversink-admon-border-color:#fdba74;
     --neversink-admon-text-color:#ea580c;
 }
+
+.two-cols-header {
+    gap: 1em;
+}
