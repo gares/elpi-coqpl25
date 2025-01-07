@@ -139,6 +139,49 @@ color: rocq
 
 # Elpi in a nutshell
 
+---
+layout: image-right
+image: vespa.png
+backgroundSize: 80%
+---
+
+# Rules, rules, rules!
+
+- Code is organized in rules
+- Rule application is guided by a pattern
+- Rules can be added statically and dynamically
+
+(Yes, Elpi is a logic programming language)
+
+### <icon-park-twotone-caution/> vintage syntax ahead
+
+<ul>
+<li><p>variables are capitals
+<force-inline>
+```elpi
+X
+```
+</force-inline>
+</p></li>
+
+<li><p> λx.t  is 
+<force-inline>
+```elpi
+x\ t
+```
+</force-inline>
+</p></li>
+
+<li><p>rules are like
+<force-inline>
+```elpi
+goal :- subgoal1, subgoal2...
+```
+</force-inline>
+</p></li>
+
+</ul>
+
 
 ---
 layout: two-cols-header
@@ -241,9 +284,38 @@ Failure
 ---
 layout: section
 color: rocq
+transition: fade
 ---
 
 # Integration in Rocq
+
+---
+layout: default
+transition: fade
+---
+
+# Stuff
+
+- quotations
+- Db
+- HOAS
+- API
+
+---
+layout: two-cols-header
+transition: fade
+---
+
+# Demo xP
+
+:: left ::
+
+<<< @/snippets/xP.v#to_bool coq
+
+:: right ::
+
+<<< @/snippets/xP.v coq
+
 
 ---
 layout: section
@@ -259,7 +331,7 @@ transition: fade
 
 # Comparison
 
-| | ==Elpi== | Ltac2 | MetaCoq |
+| | Elpi | Ltac2 | MetaCoq |
 |--|--|--|--|
 | Gallina | | |
 | Bound Variables | <icon-park-twotone-pie-five/><sup>1</sup> | <icon-park-twotone-round/> |

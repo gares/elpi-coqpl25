@@ -28,3 +28,12 @@ h1 {
 .two-cols-header {
     gap: 1em;
 }
+
+force-inline {
+  display: inline-block !important;
+  --slidev-code-padding: 4px !important;
+  --slidev-code-margin: 0px !important;
+  --slidev-code-radius: 4px !important;
+  vertical-align: middle !important;
+  --slidev-code-font-size: large !important;
+}

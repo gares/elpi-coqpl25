@@ -30,20 +30,24 @@ Fixpoint even n : bool :=
 Lemma evenP n : reflect (is_even n) (even n).
 Admitted.
 
+#region to_bool
+(* tactic *).
 Elpi Tactic to_bool.
 Elpi Accumulate lp:{{
 
+% [tb P R] finds R : reflect P p
 pred tb i:term, o:term.
 tb {{ is_even lp:N }} {{ evenP lp:N }} :- !.
 tb {{ lp:P /\ lp:Q }} {{ andPP lp:PP lp:QQ }} :- tb P PP, tb Q QQ, !.
 tb Ty _ :- coq.error "Cannot solve" {coq.term->string Ty}.
 
-solve (goal Ctx _ Ty _ _ as G) GL :-
+solve (goal _ _ Ty _ _ as G) GL :-
   tb Ty P,
-  coq.say P,
   refine {{ elimT lp:P _ }} G GL.
 
 }}.
+#endregion
+(* tactic *).
 
 Lemma test : is_even 6 /\ is_even 4.
 elpi to_bool.
