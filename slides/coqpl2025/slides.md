@@ -23,6 +23,8 @@ mdc: true
 layout: cover
 image: logo.png
 transition: fade
+level: 2
+hideInToc: true
 ---
 
 # Elpi: rule-based meta-languge for Rocq
@@ -42,9 +44,27 @@ Enrico Tassi<sup>1</sup> - CoqPL 2025
 :: note ::
 1 Inria Centre at Université Côte d’Azur 
 
+---
+layout: center
+level: 2
+---
+
+# This talk
+<br/>
+
+<Toc minDepth="1" maxDepth="1" />
+
+---
+layout: section
+color: rocq
+---
+
+# Users of Elpi
 
 ---
 layout: two-cols-header
+title: HB
+level: 2
 ---
 
 # Hierarchy Builder
@@ -81,6 +101,7 @@ Check forall (M : AddComoid.type) (x : M), x + x = 0.
 
 ---
 layout: two-cols-header
+level: 2
 ---
 
 # Track / [Trocq](https://github.com/coq-community/trocq)
@@ -112,6 +133,7 @@ Proof. trocq. (* replaces N by nat in the goal *) exact nat_rect. Defined.
 
 ---
 layout: two-cols-header
+level: 2
 ---
 
 # Derive
@@ -122,6 +144,7 @@ layout: two-cols-header
 
 ---
 layout: two-cols-header
+level: 2
 ---
 
 # Algebra Tactics
@@ -139,10 +162,13 @@ color: rocq
 
 # Elpi in a nutshell
 
+https://github.com/LPCIC/elpi/
+
 ---
 layout: image-right
 image: vespa.png
 backgroundSize: 80%
+level: 2
 ---
 
 # Rules, rules, rules!
@@ -185,6 +211,7 @@ goal :- subgoal1, subgoal2...
 
 ---
 layout: two-cols-header
+level: 2
 ---
 
 # Elpi: Hello World!
@@ -197,9 +224,35 @@ Simply typed $\lambda$-calculus in HOAS
 
 Typing
 
+
+````md magic-move
+
+<<< @/snippets/stlc.elpi#of elpi
+<<< @/snippets/stlc.elpi#of1 elpi
+<<< @/snippets/stlc.elpi#of2 elpi
 <<< @/snippets/stlc.elpi#of elpi
 
+
+````
+
 ::right::
+
+````md magic-move {at:1}
+
+```
+goal> of (lam x\ lam y\ x) TyFst.
+```
+
+```
+goal> of (lam x\ lam y\ x) (arr X0 T).
+goal> of        (lam y\ c) T.
+```
+
+```
+goal> of (lam x\ lam y\ x) (arr X0 (arr X1 T')).
+goal> of        (lam y\ c) (arr X1 T').
+goal> of                c  T'.
+```
 
 ```
 goal> of (lam x\ lam y\ x) TyFst.
@@ -214,10 +267,11 @@ goal> of (app H A) T.
 Failure.
 ```
 
-
+````
 
 ---
 layout: two-cols-header
+level: 2
 ---
 
 # Elpi: $\lambda$Prolog + CHR
@@ -232,7 +286,7 @@ Holes & constraints
 
 <<< @/snippets/stlc.elpi#cst elpi
 
-<v-click at="4">
+<v-click at="6">
 Constraint Handling Rules
 
 <<< @/snippets/stlc.elpi#chr elpi
@@ -256,6 +310,29 @@ Success:
 Constraints:
   of X0 X3  /* suspended on X0 */
   of X1 (arr X3 X2)  /* suspended on X1 */
+```
+
+```
+goal> of (app H A) T, H = (lam x\ x).
+
+Success:
+  A = X0
+  H = lam c0 \ c0
+  T = X1
+
+Constraints:
+  of X0 X1  /* suspended on X0 */
+```
+
+```
+goal> of (app (lam x\ x) A) T.
+
+Success:
+  A = X0
+  T = X1
+
+Constraints:
+  of X0 X1  /* suspended on X0 */
 ```
 
 ```
@@ -289,21 +366,32 @@ transition: fade
 
 # Integration in Rocq
 
+https://github.com/LPCIC/coq-elpi/
+
 ---
-layout: default
+layout: image-right
+image: readme.png
+backgroundSize: 80%
 transition: fade
+level: 2
 ---
 
-# Stuff
+# Notable features
 
-- quotations
-- Db
-- HOAS
-- API
+- HOAS for Gallina
+- quotations and anti-quotations
+
+  ![Quotations](/quote.png "quote")
+
+- Databases of rules
+- Extensive API
+
+  ![API example](/api.png "api")
 
 ---
 layout: two-cols-header
 transition: fade
+level: 2
 ---
 
 # Demo xP
@@ -324,34 +412,167 @@ color: rocq
 
 # The good company
 
+https://github.com/coq-community/metaprogramming-rosetta-stone
+
 ---
 transition: fade
-
+zoom: 0.85
+level: 2
 ---
 
 # Comparison
 
+<table>
+
+<thead>
+<tr style="border-bottom-width: 4px"> <th></th> <th>Elpi</th> <th>Ltac2</th> <th>MetaCoq</th> </tr>
+</thead>
+<tbody>
+
+<tr> <td>Gallina</td>
+  <td>
+    <icon-park-twotone-pie-seven/>
+    <br/><small>no mutual fix/ind</small>
+  </td>
+  <td>
+    <icon-park-twotone-round/>
+  </td>
+  <td>
+    <icon-park-twotone-round/>
+  </td>
+</tr>
+
+<tr> <td>Bound Variables</td>
+  <td>
+    <icon-park-twotone-round/>
+  </td>
+  <td>
+    <icon-park-twotone-pie-three/>
+    <br/><small>quotations</small>
+
+  </td>
+  <td>
+    <icon-park-twotone-pie-one/>
+    <br/><small>toplevel quotation</small>
+  </td>
+</tr>
+
+<tr style="border-bottom-width: 4px"> <td>Holes</td>
+  <td>
+    <icon-park-twotone-round/>
+  </td>
+  <td>
+    <icon-park-twotone-pie-five/>
+    <br/><small>tactic monad</small>
+
+  </td>
+  <td>
+    <icon-park-twotone-pie-one/>
+    <br/><small>only AST</small>
+  </td>
+</tr>
+
+<tr> <td>Proof API</td>
+  <td>
+    <icon-park-twotone-pie-four/>
+    <br/><small>weak ltac1 bridge</small>
+  </td>
+  <td>
+    <icon-park-twotone-round/>
+    <br/><small>(sufficiently close)</small>
+  </td>
+  <td>
+    <icon-park-twotone-pie-one/>
+    <br/><small>only TC search, obligations</small>
+  </td>
+</tr>
+
+<tr style="border-bottom-width: 4px"> <td>Vernacular API</td>
+  <td>
+    <icon-park-twotone-pie-seven/>
+    <br/><small>no notations, obligations</small>
+  </td>
+  <td>
+    <material-symbols-circle-outline/>
+  </td>
+  <td>
+    <icon-park-twotone-pie-three/>
+    <br/><small>only env, obligation</small>
+  </td>
+</tr>
+
+<tr style="border-bottom-width: 4px"> <td>Reasoning logic</td>
+  <td>
+    <icon-park-twotone-pie-one/>
+    <br/><small>Abella</small>
+  </td>
+  <td>
+    <material-symbols-circle-outline/>
+  </td>
+  <td>
+    <icon-park-twotone-pie-six/>
+    <br/><small>no holes, unif</small>
+  </td>
+</tr>
+
+</tbody>
+</table>
+
+To the best of my knowledge, on 1/1/2025 {style="text-align:center"}
+
+<!--
+
 | | Elpi | Ltac2 | MetaCoq |
-|--|--|--|--|
-| Gallina | | |
-| Bound Variables | <icon-park-twotone-pie-five/><sup>1</sup> | <icon-park-twotone-round/> |
-| Holes (evars) | <meteocons-thunderstorms-extreme-fill/> | <carbon-rain/> |
+|--|:--:|--|--|
+| Gallina         | <icon-park-twotone-pie-seven/><br/> cofix/mutind               | <icon-park-twotone-round/>                      | <icon-park-twotone-round/> |
+| Bound Variables | <icon-park-twotone-round/>                 | <icon-park-twotone-pie-three/> | <icon-park-twotone-pie-one/>
+| Holes (evars)   | <icon-park-twotone-round/>                 | <icon-park-twotone-pie-five/> | <icon-park-twotone-pie-one/> |
 | Quotations | <carbon-thunderstorm/> | <carbon-sun/> |
-| Vernacular API | |
+| Vernacular API | |  |
 | Tactic API | <Thumb width="1em"/> |
-
-
-<div style="position:absolute; bottom: 0; font-size: medium" class="flex justify-center gap-3">
-
-<div>1) missing mutual ind/fix</div>
-
-<div>2) bli</div>
-
-</div>
-
+| Reasoning |  <icon-park-twotone-pie-two/><sup>2</sup> | <material-symbols-circle-outline/> |  <icon-park-twotone-round/> |
+-->
 
 ---
-layout: center
+layout: section
+color: rocq
 ---
 
-# Thanks!
+# Conclusion
+
+---
+layout: default
+level: 2
+---
+
+# Elpi
+
+- Mode and determinacy analysis
+- Memoization (tabling)
+
+# Rocq-Elpi
+
+- Type Class solver
+- Mutual fixpoints and inductives
+- Obligations
+
+---
+layout: image-right
+image: logo.png
+backgroundSize: 80%
+level: 2
+---
+
+# Thanks! {style="text-align:center"}
+
+![Homepage](/frame.png "qrcode"){style="width: 60%; margin-left:auto; margin-right: auto;"}
+
+<span style="text-align:center">
+
+https://github.com/LPCIC/coq-elpi/
+
+</span>
+
+<br/>
+
+Questions? {style="text-align:center"}

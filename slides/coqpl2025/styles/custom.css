@@ -12,6 +12,17 @@ h1 {
     color:var(--rocq-blue);
 
 }
+
+td {
+  text-align: center !important;
+  vertical-align: top !important;
+
+}
+th {
+  text-align: center !important;
+}
+tr:hover {background-color: var(--slidev-code-background);;}
+
 .neversink-rocq-scheme, .ns-c-rocq-scheme {
     --neversink-bg-color:#ffedd5;
     --neversink-bg-code-color:#fed7aa;
