@@ -61,27 +61,34 @@ color: rocq
 
 # Users of Elpi
 
+- https://github.com/math-comp/hierarchy-builder/
+- https://github.com/coq-community/trocq
+- https://github.com/LPCIC/coq-elpi/tree/master/apps/derive
+- https://github.com/math-comp/algebra-tactics/
+
 ---
 layout: two-cols-header
-title: HB
 level: 2
 ---
 
 # Hierarchy Builder
 
+
+DSL to declare a hierarchy of interfaces
+
 :: left ::
 
-bla bla
+* generates boilerplate via Elpi's API: modules, implicit arguments, canonical structures, ... 
+* used by the Mathematical Components library and other ~20 libraries
+* makes "packed classes" easy ('17, '22, '24)
 
-* this 
-* that 
-* whatnot
+  ![MC](/hb_intf.png "number of interfaces"){style="width: 80%"}
+
 
 :: right ::
 
 ```coq
 From HB Require Import structures.
-From Coq Require Import ssreflect ZArith.
 
 HB.mixin Record IsAddComoid A := {
   zero : A;
@@ -104,32 +111,43 @@ layout: two-cols-header
 level: 2
 ---
 
-# Track / [Trocq](https://github.com/coq-community/trocq)
+# Trocq
 
-A modular parametricity plugin for Coq. It can be used to achieve proof transfer by both translating a user goal into another variant.
+Proof transfer via parametricity (with or without univalence).
 
 :: left ::
 
-bla
+<div style="padding-right: 3em">
 
-:: right ::
 
-```coq
-Definition RN : (N <=> nat)%P := Iso.toParamSym N.of_nat_iso.
-Trocq Use RN. (* registering related types *)
+- Registers in Elpi Databases translation rules
+- Synthesizes transfer proofs minimizing the axioms required
 
-(** This equivalence proof coerces to a relation of type `N -> nat -> Type`,
-  which we show relates the respective zero and successor constants of these
-  types: *)
-Definition RN0 : RN 0%N 0%nat. Proof. done. Defined.
-Definition RNS m n : RN m n -> RN (N.succ m) (S n). Proof. by case. Defined.
-Trocq Use RN0 RNS. (* registering related constants *)
+</div>
 
-(** We can now make use of the tactic to prove an induction principle on `N` *)
-Lemma N_Srec : forall (P : N -> Type), P 0%N ->
-    (forall n, P n -> P (N.succ n)) -> forall n, P n.
-Proof. trocq. (* replaces N by nat in the goal *) exact nat_rect. Defined.
+:: right :: 
+
+<div style="transform: scale(1.2)">
+
+```coq 
+From Trocq Require Import Trocq.
+
+Definition RN : (N <=> nat)%P := ...
+Trocq Use RN.
+
+Lemma RN0 : RN 0%N 0%nat. ...
+Lemma RNS m n : RN m n -> RN (N.succ m) (S n). ...
+Trocq Use RN0 RNS.
+
+Lemma N_Srec : ∀P : N -> Type, P 0%N ->
+    (∀n, P n -> P (N.succ n)) -> ∀n, P n.
+Proof.
+trocq. (* replaces N by nat in the goal *)
+exact nat_rect.
+Qed.
 ```
+
+</div>
 
 ---
 layout: two-cols-header
@@ -138,9 +156,42 @@ level: 2
 
 # Derive
 
+Framework for type drive code synthesis
+
 :: left ::
 
-:: right ::
+<div style="padding-right: 3em">
+
+- parametricity
+- deep induction
+- equality tests and proofs
+- lenses (record update syntax)
+
+</div>
+
+:: right :: 
+
+<div style="transform: scale(1.2)">
+
+```coq
+From elpi.apps Require Import derive.std lens.
+
+#[verbose, only(lens_laws, eqb), module] derive
+Record Box A := { contents : A; tag : nat }.
+
+Check Box.eqb :
+  ∀A, (A -> A -> bool) -> Box A -> Box A -> bool.
+
+(* the Lens for the second field *)
+Check @Box._tag : ∀A, Lens (Box A) (Box A) nat nat.
+
+(* a Lens law *)
+Check Box._tag_set_set : ∀A (r : Box A) y x,
+  set Box._tag x (set Box._tag y r) = set Box._tag x r.
+```
+
+</div>
+
 
 ---
 layout: two-cols-header
@@ -149,10 +200,40 @@ level: 2
 
 # Algebra Tactics
 
+Ring, field, lra, nra, and psatz tactics for the Mathematical Components library. 
+
 :: left ::
- 
+
+- works with any instance of the structure: concrete, abstract and mixed
+  int * R where R is a variable
+- automatically push down ring morphisms and additive functions to
+  leaves of ring/field expressions before applying the proof procedures
+- reification up to instance unification in Elpi
+
+
 :: right ::
 
+```coq
+From mathcomp Require Import all_ssreflect.
+From mathcomp Require Import all_algebra.
+From mathcomp Require Import lra.
+
+Local Open Scope ring_scope.
+
+Lemma test (F : realFieldType) (x y : F) :
+  x + 2%:R * y <= 3%:R ->
+  2%:R * x + y <= 3%:R ->
+    x + y <= 2%:R.
+Proof. lra. Qed.
+
+Variables (R : unitRingType).
+Definition f1 := ...
+Definition f2 := ...
+Definition f3 := ...
+(* 500 lines later *)
+Lemma from_sander : f1 * f2 = f3.
+Proof. rewrite /f1 /f2 /f3. ring. Qed.
+```
 
 
 ---
@@ -557,13 +638,18 @@ level: 2
 - Obligations
 
 ---
-layout: image-right
+layout: two-cols-header
 image: logo.png
 backgroundSize: 80%
 level: 2
+title: Thanks
 ---
 
 # Thanks! {style="text-align:center"}
+
+# Questions? {style="text-align:center; position: absolute; bottom: 1em; left:43%; display: block"}
+
+:: right ::
 
 ![Homepage](/frame.png "qrcode"){style="width: 60%; margin-left:auto; margin-right: auto;"}
 
@@ -575,4 +661,9 @@ https://github.com/LPCIC/coq-elpi/
 
 <br/>
 
-Questions? {style="text-align:center"}
+:: left ::
+
+<!--![logo](/logo.png){style="width:40%; margin-left:auto; margin-right: auto;"}-->
+
+For having invited me, for listening, and for **contributing code**:<br/>
+Pedro Abreu, Yves Bertot, Frederic Besson, Rob Blanco, Simon Boulier, Luc Chabassier, Cyril Cohen, Enzo Crance, Maxime Dénès, Jim Fehrle, Davide Fissore, Paolo G. Giarrusso, Gaëtan Gilbert, Benjamin Gregoire, Hugo Herbelin, Yoichi Hirai, Jasper Hugunin, Emilio Jesus Gallego Arias, Jan-Oliver Kaiser, Philip Kaludercic, Chantal Keller, Vincent Laporte, Jean-Christophe Léchenet, Rodolphe Lepigre, Karl Palmskog, Pierre-Marie Pédrot, Ramkumar Ramachandra, Pierre Roux, Pierre Roux, Claudio Sacerdoti Coen, Kazuhiko Sakaguchi, Matthieu Sozeau, Gordon Stewart, David Swasey, Alexey Trilis, Quentin Vermande, Théo Zimmermann, wdewe, whonore
