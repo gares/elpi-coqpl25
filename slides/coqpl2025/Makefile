@@ -7,7 +7,7 @@ coqpl2025/index.html: Makefile
 	echo '</body></html>' >> coqpl2025/index.html
 
 coqpl2025/slides.pdf: slides.md Makefile
-	npm exec slidev -- export --with-clicks --with-toc --output coqpl2025/slides.pdf
+	npm exec slidev -- export --with-clicks --output coqpl2025/slides.pdf
 
 coqpl2025/html: slides.md Makefile
 	npm exec slidev -- build --out coqpl2025/html --base /members/Enrico.Tassi/coqpl2025/html/

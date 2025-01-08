@@ -80,10 +80,15 @@ DSL to declare a hierarchy of interfaces
 
 * generates boilerplate via Elpi's API: modules, implicit arguments, canonical structures, ... 
 * used by the Mathematical Components library and other ~20 libraries
-* makes "packed classes" easy ('17, '22, '24)
+* makes "packed classes" easy
 
   ![MC](/hb_intf.png "number of interfaces"){style="width: 80%"}
 
+  2017
+  <span style="width:8em; display:inline-block"/>
+  2022
+  <span style="width:2em; display:inline-block"/>
+  2024
 
 :: right ::
 
@@ -156,16 +161,18 @@ level: 2
 
 # Derive
 
-Framework for type drive code synthesis
+Framework for type driven code synthesis
 
 :: left ::
 
 <div style="padding-right: 3em">
 
+Derivations:
 - parametricity
 - deep induction
 - equality tests and proofs
 - lenses (record update syntax)
+- a few more...
 
 </div>
 
@@ -176,8 +183,10 @@ Framework for type drive code synthesis
 ```coq
 From elpi.apps Require Import derive.std lens.
 
-#[verbose, only(lens_laws, eqb), module] derive
+#[only(lens_laws, eqb), module] derive
 Record Box A := { contents : A; tag : nat }.
+
+About Box. (* Notation Box := Box.t *)
 
 Check Box.eqb :
   ∀A, (A -> A -> bool) -> Box A -> Box A -> bool.
@@ -205,9 +214,9 @@ Ring, field, lra, nra, and psatz tactics for the Mathematical Components library
 :: left ::
 
 - works with any instance of the structure: concrete, abstract and mixed
-  int * R where R is a variable
+  like `int * R` where `R` is a variable
 - automatically push down ring morphisms and additive functions to
-  leaves of ring/field expressions before applying the proof procedures
+  leaves of the expression
 - reification up to instance unification in Elpi
 
 
@@ -216,22 +225,22 @@ Ring, field, lra, nra, and psatz tactics for the Mathematical Components library
 ```coq
 From mathcomp Require Import all_ssreflect.
 From mathcomp Require Import all_algebra.
-From mathcomp Require Import lra.
-
-Local Open Scope ring_scope.
+From mathcomp Require Import ring lra.
 
 Lemma test (F : realFieldType) (x y : F) :
-  x + 2%:R * y <= 3%:R ->
-  2%:R * x + y <= 3%:R ->
-    x + y <= 2%:R.
+  x + 2 * y <= 3 ->
+  2 * x + y <= 3 ->
+    x + y <= 2.
 Proof. lra. Qed.
 
-Variables (R : unitRingType).
-Definition f1 := ...
-Definition f2 := ...
-Definition f3 := ...
-(* 500 lines later *)
-Lemma from_sander : f1 * f2 = f3.
+Variables (R : unitRingType) (x1 x2 x3 y1 y2 y3 : R).
+Definition f1 : R := ...
+Definition f2 : R := ...
+Definition f3 : R := ...
+
+(* 500 lines of polynomials later... *)
+
+Lemma example_from_Sander : f1 * f2 = f3.
 Proof. rewrite /f1 /f2 /f3. ring. Qed.
 ```
 
@@ -320,29 +329,29 @@ Typing
 
 ````md magic-move {at:1}
 
-```
+```elpi
 goal> of (lam x\ lam y\ x) TyFst.
 ```
 
-```
+```elpi
 goal> of (lam x\ lam y\ x) (arr X0 T).
 goal> of        (lam y\ c) T.
 ```
 
-```
+```elpi
 goal> of (lam x\ lam y\ x) (arr X0 (arr X1 T')).
 goal> of        (lam y\ c) (arr X1 T').
 goal> of                c  T'.
 ```
 
-```
+```elpi
 goal> of (lam x\ lam y\ x) TyFst.
 
 Success:
   TyFst = arr X0 (arr X1 X0)
 ```
 
-```
+```elpi
 goal> of (app H A) T.
 
 Failure.
