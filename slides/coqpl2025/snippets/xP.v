@@ -49,3 +49,5 @@ Proof.
   simpl.
   trivial.
 Qed.
+
+(* 6 minutes *)

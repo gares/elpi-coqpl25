@@ -39,7 +39,6 @@ Elpi Accumulate lp:{{
 
 solve (goal Ctx _ Ty _ _ as G) GL :-
   tb Ty P,
-  coq.say P,
   refine {{ elimT lp:P _ }} G GL.
 
 }}.
@@ -48,11 +47,21 @@ Elpi Command add_tb.
 Elpi Accumulate Db tb.db.
 Elpi Accumulate lp:{{
 
+% evenP : forall n, reflect (is_even n) (even N).
+%
 % tb {{ is_even lp:N }} {{ evenP lp:N }}.
+%
 % pi N\ tb {{ is_even lp:N }} {{ evenP lp:N }} :- [].
 
-% tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :- tb P PP, tb Q QQ.
-% pi P PP Q QQ\ tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :- [tb P PP, tb Q QQ].
+% andP : forall P Q p p, reflect P p -> reflect Q q ->
+%                           reflect (P /\ Q) (p && q).
+%
+% tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :-
+%   tb P PP, tb Q QQ.
+%
+% pi P Q PP QQ\
+%   tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :-
+%     [tb P PP, tb Q QQ].
 
 pred compile i:term, i:term, i:list prop, o:prop.
 compile {{ reflect lp:Ty _ }} P Hyps (tb Ty P :- Hyps).
@@ -80,4 +89,5 @@ Elpi Print to_bool "Demo.snippets/to_bool".
 Lemma test : is_even 6 /\ is_even 4.
 elpi to_bool.
 simpl.
-
+trivial.
+Qed.
