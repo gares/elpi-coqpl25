@@ -17,7 +17,7 @@ of (lam F) (arr S T) :-
 
 /*#region of1*/
 pred of i:tm, o:ty.
-of c X0.
+of c S0.
 of (app H A) T :-
   of H (arr S T), of A S.
 of (lam F) (arr S T) :-
@@ -26,8 +26,8 @@ of (lam F) (arr S T) :-
 
 /*#region of2*/
 pred of i:tm, o:ty.
-of d X1.
-of c X0.
+of d S1.
+of c S0.
 of (app H A) T :-
   of H (arr S T), of A S.
 of (lam F) (arr S T) :-

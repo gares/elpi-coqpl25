@@ -54,6 +54,10 @@ level: 2
 
 <Toc minDepth="1" maxDepth="1" />
 
+<!--
+First of all thanks the orga
+-->
+
 ---
 layout: section
 color: rocq
@@ -110,6 +114,12 @@ Infix "+" := add.
 
 Check forall (M : AddComoid.type) (x : M), x + x = 0.
 ```
+
+<!--
+this is the command / this is the argument
+
+uses the APIs to declare modules, coercions, implicit arguments
+-->
 
 ---
 layout: two-cols-header
@@ -209,7 +219,7 @@ level: 2
 
 # Algebra Tactics
 
-Ring, field, lra, nra, and psatz tactics for the Mathematical Components library. 
+`ring`, `field`, `lra`, `nra`, and `psatz` tactics for the Mathematical Components library. 
 
 :: left ::
 
@@ -255,21 +265,34 @@ color: rocq
 https://github.com/LPCIC/elpi/
 
 ---
-layout: image-right
+layout: two-cols-header
 image: vespa.png
 backgroundSize: 80%
 level: 2
 ---
 
-# Rules, rules, rules!
+# Rules, rules, rules!{style="text-align:center"}
+
+
+:: left ::
+
+## What really matters
 
 - Code is organized in rules
 - Rule application is guided by a pattern
 - Rules can be added statically and dynamically
 
-(Yes, Elpi is a logic programming language)
+<br/>
 
-### <icon-park-twotone-caution/> vintage syntax ahead
+## Roots
+
+- Elpi is a constraint logic programming language
+- Elpi is a dialect of λProlog and CHR
+- backtracking is not the point
+
+:: right ::
+
+## <icon-park-twotone-caution/> Vintage syntax ahead
 
 <ul>
 <li><p>variables are capitals
@@ -280,7 +303,7 @@ X
 </force-inline>
 </p></li>
 
-<li><p> λx.t  is 
+<li><p> λx.t  is written
 <force-inline>
 ```elpi
 x\ t
@@ -288,7 +311,7 @@ x\ t
 </force-inline>
 </p></li>
 
-<li><p>rules are like
+<li><p>rules are written
 <force-inline>
 ```elpi
 goal :- subgoal1, subgoal2...
@@ -334,21 +357,21 @@ goal> of (lam x\ lam y\ x) TyFst.
 ```
 
 ```elpi
-goal> of (lam x\ lam y\ x) (arr X0 T).
-goal> of        (lam y\ c) T.
+goal> of (lam x\ lam y\ x) (arr S0 T0).
+goal> of        (lam y\ c) T0.
 ```
 
 ```elpi
-goal> of (lam x\ lam y\ x) (arr X0 (arr X1 T')).
-goal> of        (lam y\ c) (arr X1 T').
-goal> of                c  T'.
+goal> of (lam x\ lam y\ x) (arr S0 (arr S1 T1)).
+goal> of        (lam y\ c) (arr S1 T1).
+goal> of                c  T1.
 ```
 
 ```elpi
 goal> of (lam x\ lam y\ x) TyFst.
 
 Success:
-  TyFst = arr X0 (arr X1 X0)
+  TyFst = arr S0 (arr S1 S0)
 ```
 
 ```elpi
@@ -364,7 +387,7 @@ layout: two-cols-header
 level: 2
 ---
 
-# Elpi: $\lambda$Prolog + CHR
+# Elpi = $\lambda$Prolog + CHR
 
 ::left::
 
@@ -385,63 +408,54 @@ Constraint Handling Rules
 ::right::
 
 ````md magic-move
-```
+```elpi
 goal> of (app H A) T.
 ```
 
-```
+```elpi
 goal> of (app H A) T.
 
 Success:
-  A = X0
-  H = X1
-  T = X2
 
 Constraints:
-  of X0 X3  /* suspended on X0 */
-  of X1 (arr X3 X2)  /* suspended on X1 */
+  of A S  /* suspended on A */
+  of H (arr S T)  /* suspended on H */
 ```
 
-```
+```elpi
 goal> of (app H A) T, H = (lam x\ x).
 
 Success:
-  A = X0
-  H = lam c0 \ c0
-  T = X1
 
 Constraints:
-  of X0 X1  /* suspended on X0 */
+  of A T  /* suspended on A */
 ```
 
-```
+```elpi
 goal> of (app (lam x\ x) A) T.
 
 Success:
-  A = X0
-  T = X1
 
 Constraints:
-  of X0 X1  /* suspended on X0 */
+  of A T  /* suspended on A */
 ```
 
-```
-goal> of (app D D) _.
+```elpi
+goal> of (app D D) T.
 ```
 
-```
-goal> of (app D D) _.
+```elpi
+goal> of (app D D) T.
 
 Success:
-  D = X0
 
 Constraints:
-  of X0 X1  /* suspended on X0 */
-  of X0 (arr X1 X2)  /* suspended on X0 */
+  of D S  /* suspended on D */
+  of D (arr S T)  /* suspended on D */
 ```
 
-```
-goal> of (app D D) _.
+```elpi
+goal> of (app D D) T.
 
 Failure
 ```
@@ -587,7 +601,7 @@ level: 2
   </td>
   <td>
     <icon-park-twotone-pie-three/>
-    <br/><small>only env, obligation</small>
+    <br/><small>only env, obligations</small>
   </td>
 </tr>
 
@@ -635,16 +649,36 @@ layout: default
 level: 2
 ---
 
-# Elpi
+# Elpi for Rocq: take home
+
+<br/>
+
+## Extension language
+  - Use a language (ony) when it is a good fit
+  - Good FFI -> many APIs!
+  
+## Rule-based is a good fit for
+  - HOAS (binders and local context)
+  - prover logical environment (global context)
+  - (meta) meta programming (homoiconicity)
+
+
+---
+layout: default
+level: 2
+---
+
+
+# Ongoing and future work on Rocq-Elpi
+
+- Type Class solver (D.Fissore PhD)
+- Obligations (commands that start a proof)
+- Mutual fixpoints and inductives (needed by 2 power users)
+
+# Ongoing and future work on Elpi
 
 - Mode and determinacy analysis
 - Memoization (tabling)
-
-# Rocq-Elpi
-
-- Type Class solver
-- Mutual fixpoints and inductives
-- Obligations
 
 ---
 layout: two-cols-header
@@ -674,5 +708,10 @@ https://github.com/LPCIC/coq-elpi/
 
 <!--![logo](/logo.png){style="width:40%; margin-left:auto; margin-right: auto;"}-->
 
-For having invited me, for listening, and for **contributing code**:<br/>
-Pedro Abreu, Yves Bertot, Frederic Besson, Rob Blanco, Simon Boulier, Luc Chabassier, Cyril Cohen, Enzo Crance, Maxime Dénès, Jim Fehrle, Davide Fissore, Paolo G. Giarrusso, Gaëtan Gilbert, Benjamin Gregoire, Hugo Herbelin, Yoichi Hirai, Jasper Hugunin, Emilio Jesus Gallego Arias, Jan-Oliver Kaiser, Philip Kaludercic, Chantal Keller, Vincent Laporte, Jean-Christophe Léchenet, Rodolphe Lepigre, Karl Palmskog, Pierre-Marie Pédrot, Ramkumar Ramachandra, Pierre Roux, Pierre Roux, Claudio Sacerdoti Coen, Kazuhiko Sakaguchi, Matthieu Sozeau, Gordon Stewart, David Swasey, Alexey Trilis, Quentin Vermande, Théo Zimmermann, wdewe, whonore
+<div style="text-align:justify">
+
+For having invited me, for listening, and for **contributing** code:
+<br/><br/>
+Pedro Abreu, Yves Bertot, Frederic Besson, Rob Blanco, Simon Boulier, Luc Chabassier, Cyril Cohen, Enzo Crance, Maxime Dénès, Jim Fehrle, Davide Fissore, Paolo G. Giarrusso, Gaëtan Gilbert, Benjamin Gregoire, Hugo Herbelin, Yoichi Hirai, Jasper Hugunin, Emilio Jesus Gallego Arias, Jan-Oliver Kaiser, Philip Kaludercic, Chantal Keller, Vincent Laporte, Jean-Christophe Léchenet, Rodolphe Lepigre, Karl Palmskog, Pierre-Marie Pédrot, Ramkumar Ramachandra, Pierre Roux, Pierre Roux, Claudio Sacerdoti Coen, Kazuhiko Sakaguchi, Matthieu Sozeau, Gordon Stewart, David Swasey, Alexey Trilis, Quentin Vermande, Théo Zimmermann, wdewe, whonore 
+
+</div>

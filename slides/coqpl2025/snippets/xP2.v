@@ -1,24 +1,8 @@
-From Coq Require Import Bool ssreflect ssrbool Arith.
+From Coq Require Import Bool ssreflect ssrbool.
 From elpi Require Import elpi.
-
 Set Printing Coercions.
-Print iff.
-About proj1.
-About proj2.
-Print reflect.
-Search reflect andb.
-About elimT.
 
-Definition andPP  {P Q : Prop} {p q : bool} :
-  reflect P p -> reflect Q q -> reflect (P /\ Q) (p && q) := andPP.
-
-Inductive is_even : nat -> Prop :=
-  | E0 : is_even 0
-  | Eo n : is_odd n -> is_even (1+n)
-with is_odd : nat -> Prop :=
-  | Oe n : is_even n -> is_odd (1+n).
-
-Hint Resolve E0.
+Axiom is_even : nat -> Prop.
 
 Fixpoint even n : bool :=
   match n with
@@ -30,7 +14,18 @@ Fixpoint even n : bool :=
 Lemma evenP n : reflect (is_even n) (even n).
 Admitted.
 
+Lemma andP  {P Q : Prop} {p q : bool} :
+  reflect P p -> reflect Q q ->
+    reflect (P /\ Q) (p && q).
+Admitted.
+
+Lemma elimT {P b} :
+  reflect P b -> b = true ->
+    P.
+Admitted.
+
 Elpi Db tb.db lp:{{
+% [tb P R] finds R : reflect P p
 pred tb i:term, o:term.
 
 :name "tb:fail"
@@ -42,9 +37,6 @@ Elpi Tactic to_bool.
 Elpi Accumulate Db tb.db.
 Elpi Accumulate lp:{{
 
-% tb {{ is_even lp:N }} {{ evenP lp:N }} :- !.
-% tb {{ lp:P /\ lp:Q }} {{ andPP lp:PP lp:QQ }} :- tb P PP, tb Q QQ, !.
-
 solve (goal Ctx _ Ty _ _ as G) GL :-
   tb Ty P,
   coq.say P,
@@ -55,6 +47,12 @@ solve (goal Ctx _ Ty _ _ as G) GL :-
 Elpi Command add_tb.
 Elpi Accumulate Db tb.db.
 Elpi Accumulate lp:{{
+
+% tb {{ is_even lp:N }} {{ evenP lp:N }}.
+% pi N\ tb {{ is_even lp:N }} {{ evenP lp:N }} :- [].
+
+% tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :- tb P PP, tb Q QQ.
+% pi P PP Q QQ\ tb {{ lp:P /\ lp:Q }} {{ andP lp:PP lp:QQ }} :- [tb P PP, tb Q QQ].
 
 pred compile i:term, i:term, i:list prop, o:prop.
 compile {{ reflect lp:Ty _ }} P Hyps (tb Ty P :- Hyps).
@@ -74,8 +72,7 @@ main [str S] :-
 }}.
 
 Elpi add_tb evenP.
-Elpi add_tb andPP.
-Print LoadPath.
+Elpi add_tb andP.
 
 Elpi Print to_bool "Demo.snippets/to_bool".
 
