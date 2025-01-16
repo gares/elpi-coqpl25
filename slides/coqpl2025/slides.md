@@ -736,7 +736,6 @@ layout: default
 level: 2
 ---
 
-
 # Ongoing and future work on Rocq-Elpi
 
 - Type Class solver (D.Fissore PhD)
