@@ -48,3 +48,29 @@ force-inline {
   vertical-align: middle !important;
   --slidev-code-font-size: large !important;
 }
+
+.vauthors {
+
+  display: block;
+  position: absolute;
+  left: auto;
+  right:2em;
+  width:45%;
+  top: 6em;
+  bottom: auto;
+
+
+}
+
+.authors {
+  display: block;
+  position: absolute;
+  left: auto;
+  right:1em;
+  top:1em;
+
+}
+.authors p { display:inline; }
+.authors p img { display:inline-block; height: 3em; }
+.vauthors p { display:inline; }
+.vauthors p img { display:inline-block; height: 3em; }

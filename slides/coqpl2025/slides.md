@@ -77,6 +77,24 @@ level: 2
 
 # Hierarchy Builder
 
+<div class="authors">
+
+![CohenCyril](/avatars_HB/CohenCyril.jpg)
+![pi8027](/avatars_HB/pi8027.jpg)
+![gares](/avatars_HB/gares.jpg)
+![proux01](/avatars_HB/proux01.jpg)
+![ThomasPortet](/avatars_HB/ThomasPortet.jpg)
+![affeldt-aist](/avatars_HB/affeldt-aist.jpg)
+<!--
+![FissoreD](/avatars_HB/FissoreD.jpg)
+![SkySkimmer](/avatars_HB/SkySkimmer.jpg)
+![thery](/avatars_HB/thery.jpg)
+![Tvallejos](/avatars_HB/Tvallejos.jpg)
+![VojtechStep](/avatars_HB/VojtechStep.jpg)
+![ybertot](/avatars_HB/ybertot.jpg)
+-->
+
+</div>
 
 DSL to declare a hierarchy of interfaces
 
@@ -128,6 +146,15 @@ level: 2
 
 # Trocq
 
+<div class="authors">
+
+![ecranceMERCE](/avatars_trocq/ecranceMERCE.jpg)
+![amahboubi](/avatars_trocq/amahboubi.jpg)
+![CohenCyril](/avatars_trocq/CohenCyril.jpg)
+<!-- ![palmskog](/avatars_trocq/palmskog.jpg) -->
+
+</div>
+
 Proof transfer via parametricity (with or without univalence).
 
 :: left ::
@@ -170,6 +197,43 @@ level: 2
 ---
 
 # Derive
+
+<div class="authors">
+
+![gares](/avatars_coq-elpi/gares.jpg)
+![CohenCyril](/avatars_coq-elpi/CohenCyril.jpg)
+![bgregoir](/avatars_coq-elpi/bgregoir.jpg)
+![eponier](/avatars_coq-elpi/eponier.jpg)
+![Blaisorblade](/avatars_coq-elpi/Blaisorblade.jpg)
+![rlepigre](/avatars_coq-elpi/rlepigre.jpg)
+![dwarfmaster](/avatars_coq-elpi/dwarfmaster.jpg)
+<!--
+![artagnon](/avatars_coq-elpi/artagnon.jpg)
+![ecranceMERCE](/avatars_coq-elpi/ecranceMERCE.jpg)
+![ejgallego](/avatars_coq-elpi/ejgallego.jpg)
+![FissoreD](/avatars_coq-elpi/FissoreD.jpg)
+![herbelin](/avatars_coq-elpi/herbelin.jpg)
+![jfehrle](/avatars_coq-elpi/jfehrle.jpg)
+![maximedenes](/avatars_coq-elpi/maximedenes.jpg)
+![pedrotst](/avatars_coq-elpi/pedrotst.jpg)
+![phikal](/avatars_coq-elpi/phikal.jpg)
+![pi8027](/avatars_coq-elpi/pi8027.jpg)
+![ppedrot](/avatars_coq-elpi/ppedrot.jpg)
+![proux01](/avatars_coq-elpi/proux01.jpg)
+![robblanco](/avatars_coq-elpi/robblanco.jpg)
+![SimonBoulier](/avatars_coq-elpi/SimonBoulier.jpg)
+![SkySkimmer](/avatars_coq-elpi/SkySkimmer.jpg)
+![Tragicus](/avatars_coq-elpi/Tragicus.jpg)
+![vbgl](/avatars_coq-elpi/vbgl.jpg)
+![VojtechStep](/avatars_coq-elpi/VojtechStep.jpg)
+![wdeweijer](/avatars_coq-elpi/wdeweijer.jpg)
+![whonore](/avatars_coq-elpi/whonore.jpg)
+![ybertot](/avatars_coq-elpi/ybertot.jpg)
+![yoichi-at-bedrock](/avatars_coq-elpi/yoichi-at-bedrock.jpg)
+![Zimmi48](/avatars_coq-elpi/Zimmi48.jpg)
+-->
+
+</div>
 
 Framework for type driven code synthesis
 
@@ -218,6 +282,16 @@ level: 2
 ---
 
 # Algebra Tactics
+
+<div class="authors">
+
+![pi8027](/avatars_AT/pi8027.jpg)
+![proux01](/avatars_AT/proux01.jpg)
+![amahboubi](/avatars_AT/amahboubi.jpg)
+<!-- ![CohenCyril](/avatars_AT/CohenCyril.jpg)
+![gares](/avatars_AT/gares.jpg) -->
+
+</div>
 
 `ring`, `field`, `lra`, `nra`, and `psatz` tactics for the Mathematical Components library. 
 
@@ -276,19 +350,22 @@ level: 2
 
 :: left ::
 
-## What really matters
-
-- Code is organized in rules
-- Rule application is guided by a pattern
-- Rules can be added statically and dynamically
-
-<br/>
 
 ## Roots
 
 - Elpi is a constraint logic programming language
 - Elpi is a dialect of λProlog and CHR
 - backtracking is not the point
+
+<br/>
+
+## What really matters
+
+- Code is organized in rules
+- Rule application is guided by a pattern
+- Rules can be added statically and dynamically
+
+
 
 :: right ::
 
@@ -761,13 +838,63 @@ title: Thanks
 
 :: right ::
 
-![Homepage](/frame.png "qrcode"){style="width: 60%; margin-left:auto; margin-right: auto;"}
+<div class="vauthors">
 
-<span style="text-align:center">
+<div style="text-align:center">
 
 https://github.com/LPCIC/coq-elpi/
 
-</span>
+</div>
+<br/>
+
+![Armael](/avatars_coq-elpi/Armael.jpg)
+![artagnon](/avatars_coq-elpi/artagnon.jpg)
+![bgregoir](/avatars_coq-elpi/bgregoir.jpg)
+![Blaisorblade](/avatars_coq-elpi/Blaisorblade.jpg)
+![cdunchev](/avatars_coq-elpi/cdunchev.jpg)
+![CohenCyril](/avatars_coq-elpi/CohenCyril.jpg)
+![dwarfmaster](/avatars_coq-elpi/dwarfmaster.jpg)
+![ecranceMERCE](/avatars_coq-elpi/ecranceMERCE.jpg)
+![ejgallego](/avatars_coq-elpi/ejgallego.jpg)
+![eponier](/avatars_coq-elpi/eponier.jpg)
+![FissoreD](/avatars_coq-elpi/FissoreD.jpg)
+<!-- ![gares](/avatars_coq-elpi/gares.jpg) -->
+![gdufrc](/avatars_coq-elpi/gdufrc.jpg)
+![herbelin](/avatars_coq-elpi/herbelin.jpg)
+![jfehrle](/avatars_coq-elpi/jfehrle.jpg)
+![jwintz](/avatars_coq-elpi/jwintz.jpg)
+![kit-ty-kate](/avatars_coq-elpi/kit-ty-kate.jpg)
+![lthls](/avatars_coq-elpi/lthls.jpg)
+![lukovdm](/avatars_coq-elpi/lukovdm.jpg)
+![maximedenes](/avatars_coq-elpi/maximedenes.jpg)
+![mb64](/avatars_coq-elpi/mb64.jpg)
+![MSoegtropIMC](/avatars_coq-elpi/MSoegtropIMC.jpg)
+![palmskog](/avatars_coq-elpi/palmskog.jpg)
+![pedrotst](/avatars_coq-elpi/pedrotst.jpg)
+![phikal](/avatars_coq-elpi/phikal.jpg)
+![pi8027](/avatars_coq-elpi/pi8027.jpg)
+![ppedrot](/avatars_coq-elpi/ppedrot.jpg)
+![proux01](/avatars_coq-elpi/proux01.jpg)
+![rgrinberg](/avatars_coq-elpi/rgrinberg.jpg)
+![rlepigre](/avatars_coq-elpi/rlepigre.jpg)
+![robblanco](/avatars_coq-elpi/robblanco.jpg)
+![sacerdot](/avatars_coq-elpi/sacerdot.jpg)
+![shonfeder](/avatars_coq-elpi/shonfeder.jpg)
+![SimonBoulier](/avatars_coq-elpi/SimonBoulier.jpg)
+![SkySkimmer](/avatars_coq-elpi/SkySkimmer.jpg)
+![smuenzel](/avatars_coq-elpi/smuenzel.jpg)
+![Tragicus](/avatars_coq-elpi/Tragicus.jpg)
+![vbgl](/avatars_coq-elpi/vbgl.jpg)
+![VojtechStep](/avatars_coq-elpi/VojtechStep.jpg)
+![voodoos](/avatars_coq-elpi/voodoos.jpg)
+![wdeweijer](/avatars_coq-elpi/wdeweijer.jpg)
+![whonore](/avatars_coq-elpi/whonore.jpg)
+![XVilka](/avatars_coq-elpi/XVilka.jpg)
+![ybertot](/avatars_coq-elpi/ybertot.jpg)
+![yoichi-at-bedrock](/avatars_coq-elpi/yoichi-at-bedrock.jpg)
+![Zimmi48](/avatars_coq-elpi/Zimmi48.jpg)
+
+</div>
 
 <br/>
 
