@@ -45,21 +45,6 @@ Elpi Command add_tb.
 Elpi Accumulate Db tb.db.
 Elpi Accumulate lp:{{
 
-% [compile Ty R Acc C] invariant R : Ty, C = tb ... :- ...
-pred compile i:term, i:term, i:list prop, o:prop.
-compile {{ reflect lp:P _ }} R Todo (tb P R :- Todo).
-compile {{ reflect lp:S _ -> lp:Ty }} R Todo (pi h\C h) :-
-  pi h\ compile Ty {coq.mk-app R [h]} [tb S h|Todo] (C h).
-compile {{ forall x, lp:(Ty x) }} R Todo (pi x\ C x) :-
-  pi x\ compile (Ty x) {coq.mk-app R [x]} Todo (C x).
-
-main [str S] :-
-  coq.locate S GR,
-  coq.env.typeof GR Ty,
-  compile Ty (global GR) [] C,
-  coq.say "Adding" C,
-  coq.elpi.accumulate _ "tb.db" (clause _ _ C).
-
 % evenP : forall n, reflect (is_even n) (even N).
 %
 % tb {{ is_even lp:N }} {{ evenP lp:N }}.
@@ -84,8 +69,9 @@ Elpi add_tb andP.
 (* Elpi Print to_bool "Demo.snippets/to_bool". *)
 
 Lemma test : is_even 6 /\ is_even 4.
-elpi to_bool.
-simpl.
-trivial.
+Proof.
+  elpi to_bool.
+  simpl.
+  trivial.
 Qed.
 

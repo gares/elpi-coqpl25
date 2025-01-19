@@ -71,6 +71,6 @@ force-inline {
 
 }
 .authors p { display:inline; }
-.authors p img { display:inline-block; height: 3em; }
+.authors p img { display:inline-block; height: 3em;   border-radius: 50%; }
 .vauthors p { display:inline; }
-.vauthors p img { display:inline-block; height: 3em; }
+.vauthors p img { display:inline-block; height: 3em;   border-radius: 50%;}
