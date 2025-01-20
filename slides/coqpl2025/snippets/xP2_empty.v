@@ -41,7 +41,7 @@ solve (goal _ _ Ty _ _ as G) GL :-
 
 }}.
 
-Elpi Command add_tb.
+Elpi Command register_tb.
 Elpi Accumulate Db tb.db.
 Elpi Accumulate lp:{{
 
@@ -62,9 +62,10 @@ Elpi Accumulate lp:{{
 %     [tb P PP, tb Q QQ].
 
 }}.
+Elpi Export register_tb.
 
-Elpi add_tb evenP.
-Elpi add_tb andP.
+register_tb evenP.
+register_tb andP.
 
 (* Elpi Print to_bool "Demo.snippets/to_bool". *)
 
