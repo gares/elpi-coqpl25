@@ -9,6 +9,7 @@ coqpl2025/index.html: Makefile
 coqpl2025/slides.pdf: slides.md Makefile
 	npm exec slidev -- export --with-clicks --format png --output coqpl2025/slides.png/
 	convert coqpl2025/slides.png/*.png coqpl2025/slides.pdf
+	rm -rf coqpl2025/slides.png/
 
 coqpl2025/html: slides.md Makefile
 	npm exec slidev -- build --out coqpl2025/html --base /members/Enrico.Tassi/coqpl2025/html/
