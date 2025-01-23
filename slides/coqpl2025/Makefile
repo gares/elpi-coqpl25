@@ -3,9 +3,11 @@ coqpl2025/index.html: Makefile
 	echo '<header><title>CoqPL 2025</title></header>' >> coqpl2025/index.html
 	echo '<body><H1>CoqPL 2025</H1>' >> coqpl2025/index.html
 	echo '<H3>Elpi: rule-based meta-languge for Rocq</H3>' >> coqpl2025/index.html
+	echo '<p>Abstract: <a href="abstract.pdf">pdf</a></p>' >> coqpl2025/index.html
 	echo '<p>Slides: <a href="slides.pdf">pdf</a> <a href="html/">html</a></p>' >> coqpl2025/index.html
 	echo '<p>Demo: <a href="xP.v">xP.v</a> <a href="xP2.v">xP2.v</a></p>' >> coqpl2025/index.html
 	echo '</body></html>' >> coqpl2025/index.html
+	cp ../../abstract.pdf coqpl2025/
 	cp snippets/xP.v snippets/xP2.v coqpl2025/
 
 coqpl2025/slides.pdf: slides.md Makefile
