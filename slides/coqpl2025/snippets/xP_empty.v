@@ -1,6 +1,5 @@
 From Coq Require Import Bool ssreflect ssrbool.
 From elpi Require Import elpi.
-Set Printing Coercions.
 
 Axiom is_even : nat -> Prop.
 
