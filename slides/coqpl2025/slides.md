@@ -425,6 +425,10 @@ Typing
 
 ````
 
+<br/>
+<br/>
+<br/>
+
 ::right::
 
 ````md magic-move {at:1}
@@ -481,6 +485,11 @@ Constraint Handling Rules
 
 <<< @/snippets/stlc.elpi#chr elpi
 </v-click>
+
+<br/>
+<br/>
+<br/>
+
 
 ::right::
 
